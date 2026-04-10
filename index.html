@@ -23,3 +23,290 @@
     }
     .container{width:min(1100px,92%);margin:auto}
     section{padding:70px 0}
+    h1,h2,h3{line-height:1.2}
+    p{color:var(--muted)}
+
+    .hero{
+      padding:80px 0 50px;
+      background:radial-gradient(circle at top right,#1d2b4f 0%,transparent 35%),
+                 radial-gradient(circle at top left,#311b68 0%,transparent 30%),
+                 var(--bg);
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:40px;
+      align-items:center;
+    }
+    .badge{
+      display:inline-block;
+      background:rgba(91,140,255,.15);
+      border:1px solid rgba(91,140,255,.35);
+      color:#aecdff;
+      padding:8px 14px;
+      border-radius:999px;
+      font-size:.9rem;
+      margin-bottom:18px;
+    }
+    .hero h1{
+      font-size:clamp(2rem,5vw,3.8rem);
+      margin-bottom:16px;
+    }
+    .hero p{
+      font-size:1.05rem;
+      margin-bottom:26px;
+    }
+    .cta-group{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+    .btn{
+      padding:14px 24px;
+      border:none;
+      border-radius:14px;
+      text-decoration:none;
+      font-weight:700;
+      cursor:pointer;
+      transition:.25s ease;
+    }
+    .btn-primary{
+      background:linear-gradient(135deg,var(--primary),var(--primary2));
+      color:#fff;
+      box-shadow:0 10px 30px rgba(91,140,255,.3);
+    }
+    .btn-primary:hover{transform:translateY(-2px)}
+    .btn-secondary{
+      background:transparent;
+      border:1px solid var(--border);
+      color:#fff;
+    }
+
+    .comparison-card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:24px;
+      padding:18px;
+      box-shadow:0 20px 50px rgba(0,0,0,.35);
+    }
+    .comparison-wrapper{
+      position:relative;
+      width:100%;
+      aspect-ratio:4/3;
+      overflow:hidden;
+      border-radius:18px;
+      user-select:none;
+      touch-action:none;
+    }
+    .comparison-wrapper img{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      pointer-events:none;
+    }
+    .after-layer{
+      width:50%;
+      overflow:hidden;
+      position:absolute;
+      inset:0;
+    }
+    .slider-line{
+      position:absolute;
+      top:0;
+      bottom:0;
+      width:3px;
+      background:#fff;
+      left:50%;
+      transform:translateX(-50%);
+      z-index:5;
+      box-shadow:0 0 0 1px rgba(0,0,0,.2);
+    }
+    .slider-handle{
+      position:absolute;
+      top:50%;
+      left:50%;
+      transform:translate(-50%,-50%);
+      width:52px;
+      height:52px;
+      border-radius:50%;
+      background:#fff;
+      color:#111;
+      display:grid;
+      place-items:center;
+      z-index:6;
+      font-weight:bold;
+      box-shadow:0 8px 25px rgba(0,0,0,.3);
+    }
+    .label{
+      position:absolute;
+      top:14px;
+      padding:6px 12px;
+      border-radius:999px;
+      font-size:.8rem;
+      font-weight:700;
+      background:rgba(0,0,0,.55);
+      backdrop-filter:blur(8px);
+      z-index:7;
+    }
+    .label.before{left:14px}
+    .label.after{right:14px}
+
+    .section-title{text-align:center;margin-bottom:40px}
+    .section-title h2{font-size:2rem;margin-bottom:10px}
+
+    .steps{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:20px;
+    }
+    .step{
+      background:var(--card);
+      border:1px solid var(--border);
+      padding:24px;
+      border-radius:20px;
+    }
+    .step .num{
+      width:42px;height:42px;border-radius:12px;
+      display:grid;place-items:center;
+      background:linear-gradient(135deg,var(--primary),var(--primary2));
+      margin-bottom:16px;
+      font-weight:800;
+    }
+
+    .order-card{
+      background:linear-gradient(180deg,#121826,#0e1420);
+      border:1px solid var(--border);
+      border-radius:24px;
+      padding:30px;
+      text-align:center;
+    }
+    .order-card p{margin:14px auto 22px;max-width:650px}
+    .footer{
+      padding:30px 0;
+      text-align:center;
+      color:#7f8aa3;
+      border-top:1px solid rgba(255,255,255,.05);
+    }
+
+    @media (max-width:900px){
+      .hero-grid,.steps{grid-template-columns:1fr}
+      .hero{text-align:center}
+      .cta-group{justify-content:center}
+    }
+  </style>
+</head>
+<body>
+
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="badge">✨ خدمة احترافية لتحسين جودة الصور</span>
+        <h1>حوّل صورك الباهتة إلى صور واضحة وعالية الجودة</h1>
+        <p>
+          نقوم بتحسين جودة الصور القديمة أو منخفضة الدقة باستخدام تقنيات ذكاء اصطناعي متقدمة للحصول على نتيجة احترافية خلال وقت قصير.
+        </p>
+        <div class="cta-group">
+          <a href="#order" class="btn btn-primary">اطلب الآن</a>
+          <a href="#how" class="btn btn-secondary">كيف تعمل الخدمة؟</a>
+        </div>
+      </div>
+
+      <div class="comparison-card">
+        <div class="comparison-wrapper" id="comparison">
+          <img src="before.jpeg" alt="Before" />
+          <div class="after-layer" id="afterLayer">
+            <img src="after.jpg" alt="After" />
+          </div>
+          <div class="label before">قبل</div>
+          <div class="label after">بعد</div>
+          <div class="slider-line" id="sliderLine"></div>
+          <div class="slider-handle" id="sliderHandle">↔</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how">
+    <div class="container">
+      <div class="section-title">
+        <h2>كيف تعمل الخدمة؟</h2>
+        <p>عملية بسيطة وسريعة في 3 خطوات فقط</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="num">1</div>
+          <h3>ارفع صورتك</h3>
+          <p>أرسل الصورة التي تريد تحسينها عبر النموذج.</p>
+        </div>
+        <div class="step">
+          <div class="num">2</div>
+          <h3>أرسل الدفع</h3>
+          <p>قم بالدفع عبر بريدي موب وأرفق وصل الدفع.</p>
+        </div>
+        <div class="step">
+          <div class="num">3</div>
+          <h3>استلم النتيجة</h3>
+          <p>نرسل لك الصورة المحسنة بأعلى جودة خلال أقرب وقت.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="order">
+    <div class="container">
+      <div class="order-card">
+        <h2>جاهز لتحسين صورتك؟</h2>
+        <p>
+          اضغط على الزر بالأسفل لفتح نموذج الطلب ورفع الصورة + وصل الدفع مباشرة.
+        </p>
+        <a href="YOUR_GOOGLE_FORM_LINK" target="_blank" class="btn btn-primary">فتح نموذج الطلب</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">
+    <div class="container">© 2026 جميع الحقوق محفوظة</div>
+  </div>
+
+  <script>
+    const comparison = document.getElementById('comparison');
+    const afterLayer = document.getElementById('afterLayer');
+    const sliderLine = document.getElementById('sliderLine');
+    const sliderHandle = document.getElementById('sliderHandle');
+
+    let isDragging = false;
+
+    function updateSlider(x) {
+      const rect = comparison.getBoundingClientRect();
+      let pos = ((x - rect.left) / rect.width) * 100;
+      pos = Math.max(0, Math.min(100, pos));
+
+      afterLayer.style.width = pos + '%';
+      sliderLine.style.left = pos + '%';
+      sliderHandle.style.left = pos + '%';
+    }
+
+    comparison.addEventListener('mousedown', () => isDragging = true);
+    window.addEventListener('mouseup', () => isDragging = false);
+    window.addEventListener('mousemove', e => {
+      if (!isDragging) return;
+      updateSlider(e.clientX);
+    });
+
+    comparison.addEventListener('touchstart', e => {
+      isDragging = true;
+      updateSlider(e.touches[0].clientX);
+    }, {passive:true});
+
+    window.addEventListener('touchend', () => isDragging = false);
+    window.addEventListener('touchmove', e => {
+      if (!isDragging) return;
+      updateSlider(e.touches[0].clientX);
+    }, {passive:true});
+
+    comparison.addEventListener('click', e => updateSlider(e.clientX));
+  </script>
+</body>
+</html>
