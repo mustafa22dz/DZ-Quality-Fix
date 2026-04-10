@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DZ Photo Upscaler | تحسين جودة الصور</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00d2ff;
+            --secondary: #3a7bd5;
+            --dark: #121212;
+            --light: #ffffff;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        header {
+            padding: 50px 20px;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+        }
+
+        h1 { margin: 0; font-size: 2.5rem; }
+        p { opacity: 0.9; font-size: 1.1rem; }
+
+        .container { max-width: 900px; margin: auto; padding: 20px; }
+
+        /* أداة المقارنة */
+        .comparison-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 40px auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            aspect-ratio: 4 / 3;
+        }
+
+        .comparison-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .img-after {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            border-right: 3px solid var(--primary);
+        }
+
+        .img
