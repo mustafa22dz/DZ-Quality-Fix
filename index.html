@@ -82,7 +82,6 @@
       color:#fff;
     }
 
-    /* تنسيق الصور الثابتة */
     .comparison-card{
       background:var(--card);
       border:1px solid var(--border);
@@ -125,7 +124,6 @@
     .label.before{right:14px}
     .label.after{left:14px}
 
-    /* شريط ضمان الجودة */
     .trust-note {
       text-align: center;
       margin-top: 15px;
@@ -167,6 +165,17 @@
       text-align:center;
     }
     .order-card p{margin:14px auto 22px;max-width:650px}
+    
+    /* تنسيق حاوية Jotform */
+    .jotform-container {
+      width: 100%;
+      max-width: 700px;
+      margin: 0 auto;
+      border-radius: 15px;
+      overflow: hidden;
+      background: transparent;
+    }
+
     .footer{
       padding:30px 0;
       text-align:center;
@@ -251,13 +260,14 @@
   <section id="order">
     <div class="container">
       <div class="order-card">
-        <span style="font-size: 3rem;">🚀</span>
+        <span style="font-size: 3rem; display: block; margin-bottom: 10px;">🚀</span>
         <h2>جاهز لرؤية صورك بدقة مذهلة؟</h2>
-        <p>
-          الخدمة مجانية تماماً لفترة محدودة. فقط ارفع صورتك وانتظر السحر!
-        </p>
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfjtpB4DLfsgsdhZbTJppKdO8Xo3Q_tyFQqNZJLjxoQL14EcA/viewform?usp=header" target="_blank" class="btn btn-primary">إرسال طلب تحسين مجاني</a>
-      </div>
+        <p>الخدمة مجانية تماماً. ارفع صورتك الآن وسنقوم بمعالجتها يدوياً بأعلى جودة.</p>
+        
+        <div class="jotform-container">
+          <script type="text/javascript" src="https://form.jotform.com/jsform/260996070103050"></script>
+        </div>
+        </div>
     </div>
   </section>
 
