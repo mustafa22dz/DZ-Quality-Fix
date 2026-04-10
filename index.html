@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>تحسين جودة الصور | AI Upscaling</title>
+  <title>تحسين جودة الصور مجاناً | DZ-Quality-Fix</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
     body{
@@ -17,8 +17,8 @@
       --bg:#0b0f19;
       --card:#121826;
       --border:#25304a;
-      --primary:#5b8cff;
-      --primary2:#7c4dff;
+      --primary:#00d2ff;
+      --primary2:#3a7bd5;
       --muted:#9aa6c2;
     }
     .container{width:min(1100px,92%);margin:auto}
@@ -40,8 +40,8 @@
     }
     .badge{
       display:inline-block;
-      background:rgba(91,140,255,.15);
-      border:1px solid rgba(91,140,255,.35);
+      background:rgba(0, 210, 255, 0.15);
+      border:1px solid rgba(0, 210, 255, 0.35);
       color:#aecdff;
       padding:8px 14px;
       border-radius:999px;
@@ -73,7 +73,7 @@
     .btn-primary{
       background:linear-gradient(135deg,var(--primary),var(--primary2));
       color:#fff;
-      box-shadow:0 10px 30px rgba(91,140,255,.3);
+      box-shadow:0 10px 30px rgba(0, 210, 255, 0.3);
     }
     .btn-primary:hover{transform:translateY(-2px)}
     .btn-secondary{
@@ -97,6 +97,7 @@
       border-radius:18px;
       user-select:none;
       touch-action:none;
+      background: #000;
     }
     .comparison-wrapper img{
       position:absolute;
@@ -111,7 +112,17 @@
       overflow:hidden;
       position:absolute;
       inset:0;
+      z-index: 2;
+      border-left: 2px solid #fff;
     }
+    /* تعديل لضمان عدم انكماش الصورة داخل الطبقة المتحركة */
+    .after-layer img {
+      width: 100%; 
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+    }
+
     .slider-line{
       position:absolute;
       top:0;
@@ -121,15 +132,14 @@
       left:50%;
       transform:translateX(-50%);
       z-index:5;
-      box-shadow:0 0 0 1px rgba(0,0,0,.2);
     }
     .slider-handle{
       position:absolute;
       top:50%;
       left:50%;
       transform:translate(-50%,-50%);
-      width:52px;
-      height:52px;
+      width:45px;
+      height:45px;
       border-radius:50%;
       background:#fff;
       color:#111;
@@ -137,7 +147,7 @@
       place-items:center;
       z-index:6;
       font-weight:bold;
-      box-shadow:0 8px 25px rgba(0,0,0,.3);
+      box-shadow:0 0 15px rgba(0,0,0,0.5);
     }
     .label{
       position:absolute;
@@ -150,8 +160,8 @@
       backdrop-filter:blur(8px);
       z-index:7;
     }
-    .label.before{left:14px}
-    .label.after{right:14px}
+    .label.before{right:14px}
+    .label.after{left:14px}
 
     .section-title{text-align:center;margin-bottom:40px}
     .section-title h2{font-size:2rem;margin-bottom:10px}
@@ -179,7 +189,7 @@
       background:linear-gradient(180deg,#121826,#0e1420);
       border:1px solid var(--border);
       border-radius:24px;
-      padding:30px;
+      padding:40px;
       text-align:center;
     }
     .order-card p{margin:14px auto 22px;max-width:650px}
@@ -202,23 +212,25 @@
   <section class="hero">
     <div class="container hero-grid">
       <div>
-        <span class="badge">✨ خدمة احترافية لتحسين جودة الصور</span>
-        <h1>حوّل صورك الباهتة إلى صور واضحة وعالية الجودة</h1>
+        <span class="badge">🎁 عرض محدود: تحسين جودة الصور مجاناً</span>
+        <h1>حوّل صورك القديمة إلى دقة 4K فائقة الوضوح</h1>
         <p>
-          نقوم بتحسين جودة الصور القديمة أو منخفضة الدقة باستخدام تقنيات ذكاء اصطناعي متقدمة للحصول على نتيجة احترافية خلال وقت قصير.
+          نستخدم أقوى تقنيات الذكاء الاصطناعي لإصلاح الصور الباهتة وتوضيح ملامح الوجه مجاناً بالكامل. جودة احترافية دون دفع سنت واحد.
         </p>
         <div class="cta-group">
-          <a href="#order" class="btn btn-primary">اطلب الآن</a>
+          <a href="#order" class="btn btn-primary">حسّن صورتك الآن</a>
           <a href="#how" class="btn btn-secondary">كيف تعمل الخدمة؟</a>
         </div>
       </div>
 
       <div class="comparison-card">
         <div class="comparison-wrapper" id="comparison">
-          <img src="before.jpg" alt="Before" />
+          <img src="before.jpeg" alt="Original Image" />
+          
           <div class="after-layer" id="afterLayer">
-            <img src="after.jpg" alt="After" />
+            <img src="after.jpg" alt="Enhanced Image" style="width: 100%; height: 100%; object-fit: cover;" />
           </div>
+          
           <div class="label before">قبل</div>
           <div class="label after">بعد</div>
           <div class="slider-line" id="sliderLine"></div>
@@ -231,24 +243,24 @@
   <section id="how">
     <div class="container">
       <div class="section-title">
-        <h2>كيف تعمل الخدمة؟</h2>
-        <p>عملية بسيطة وسريعة في 3 خطوات فقط</p>
+        <h2>لماذا خدمتنا؟</h2>
+        <p>بسيطة، سريعة، ومجانية 100%</p>
       </div>
       <div class="steps">
         <div class="step">
           <div class="num">1</div>
           <h3>ارفع صورتك</h3>
-          <p>أرسل الصورة التي تريد تحسينها عبر النموذج.</p>
+          <p>أرسل الصورة التي تريد تحسين جودتها عبر نموذج الطلب بالأسفل.</p>
         </div>
         <div class="step">
           <div class="num">2</div>
-          <h3>أرسل الدفع</h3>
-          <p>قم بالدفع عبر بريدي موب وأرفق وصل الدفع.</p>
+          <h3>معالجة ذكية</h3>
+          <p>يقوم نظامنا المدعوم بالذكاء الاصطناعي بترميم الصورة وزيادة دقتها تلقائياً.</p>
         </div>
         <div class="step">
           <div class="num">3</div>
-          <h3>استلم النتيجة</h3>
-          <p>نرسل لك الصورة المحسنة بأعلى جودة خلال أقرب وقت.</p>
+          <h3>استلم مجاناً</h3>
+          <p>سنرسل لك النسخة المحسنة عالية الجودة مباشرة إلى بريدك الإلكتروني.</p>
         </div>
       </div>
     </div>
@@ -257,17 +269,18 @@
   <section id="order">
     <div class="container">
       <div class="order-card">
-        <h2>جاهز لتحسين صورتك؟</h2>
+        <span style="font-size: 3rem;">🚀</span>
+        <h2>جاهز لرؤية صورك بدقة مذهلة؟</h2>
         <p>
-          اضغط على الزر بالأسفل لفتح نموذج الطلب ورفع الصورة + وصل الدفع مباشرة.
+          الخدمة مجانية تماماً لفترة محدودة. لا تحتاج لبطاقة بنكية أو دفع أي رسوم. فقط ارفع صورتك وانتظر السحر!
         </p>
-        <a href="YOUR_GOOGLE_FORM_LINK" target="_blank" class="btn btn-primary">فتح نموذج الطلب</a>
+        <a href="YOUR_GOOGLE_FORM_LINK" target="_blank" class="btn btn-primary">إرسال طلب تحسين مجاني</a>
       </div>
     </div>
   </section>
 
   <div class="footer">
-    <div class="container">© 2026 جميع الحقوق محفوظة</div>
+    <div class="container">© 2026 DZ-Quality-Fix | تم التطوير بواسطة مصطفى</div>
   </div>
 
   <script>
@@ -283,11 +296,13 @@
       let pos = ((x - rect.left) / rect.width) * 100;
       pos = Math.max(0, Math.min(100, pos));
 
+      // التغيير هنا ليكون متوافقاً مع الاتجاه العربي
       afterLayer.style.width = pos + '%';
       sliderLine.style.left = pos + '%';
       sliderHandle.style.left = pos + '%';
     }
 
+    // دعم الفأرة
     comparison.addEventListener('mousedown', () => isDragging = true);
     window.addEventListener('mouseup', () => isDragging = false);
     window.addEventListener('mousemove', e => {
@@ -295,6 +310,7 @@
       updateSlider(e.clientX);
     });
 
+    // دعم اللمس للهواتف
     comparison.addEventListener('touchstart', e => {
       isDragging = true;
       updateSlider(e.touches[0].clientX);
@@ -306,6 +322,7 @@
       updateSlider(e.touches[0].clientX);
     }, {passive:true});
 
+    // النقر المباشر للتغيير
     comparison.addEventListener('click', e => updateSlider(e.clientX));
   </script>
 </body>
