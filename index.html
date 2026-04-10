@@ -1,183 +1,25 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DZ-Quality-Fix | تحسين جودة الصور</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #00d2ff;
-            --secondary: #3a7bd5;
-            --dark: #121212;
-            --light: #ffffff;
-        }
-
-        body {
-            font-family: 'Tajawal', sans-serif;
-            background-color: var(--dark);
-            color: var(--light);
-            margin: 0;
-            padding: 0;
-            text-align: center;
-        }
-
-        header {
-            padding: 50px 20px;
-            background: linear-gradient(135deg, var(--secondary), var(--primary));
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-
-        h1 { margin: 0; font-size: 2.5rem; }
-        p { opacity: 0.9; font-size: 1.1rem; margin-top: 10px; }
-
-        .container { max-width: 900px; margin: auto; padding: 20px; }
-
-        /* أداة المقارنة التفاعلية */
-        .comparison-container {
-            position: relative;
-            width: 100%;
-            max-width: 600px;
-            margin: 40px auto;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            aspect-ratio: 4 / 3;
-            background: #222;
-        }
-
-        .comparison-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .img-after {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 50%;
-            height: 100%;
-            overflow: hidden;
-            border-right: 3px solid var(--primary);
-            z-index: 2;
-        }
-
-        /* هذا السطر يضمن بقاء حجم الصورة ثابتاً أثناء السحب */
-        .img-after img { 
-            width: 600px; 
-            max-width: none; 
-            height: 100%;
-        }
-
-        .slider-input {
-            position: absolute;
-            -webkit-appearance: none;
-            appearance: none;
-            width: 100%;
-            height: 100%;
-            background: transparent;
-            outline: none;
-            margin: 0;
-            top: 0;
-            left: 0;
-            cursor: ew-resize;
-            z-index: 10;
-        }
-
-        /* قسم رفع الصور ونموذج جوجل */
-        .upload-section {
-            background: #1e1e1e;
-            padding: 30px;
-            border-radius: 15px;
-            margin-top: 50px;
-            border: 1px solid #333;
-        }
-
-        .upload-section h2 { color: var(--primary); margin-bottom: 20px; }
-
-        .form-container {
-            position: relative;
-            width: 100%;
-            overflow: hidden;
-            padding-top: 100%; /* نسبة الارتفاع للنماذج */
-        }
-
-        iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-            border-radius: 10px;
-        }
-
-        .payment-info {
-            background: #252525;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            border-right: 5px solid #4caf50;
-            text-align: right;
-        }
-
-        footer { padding: 40px 20px; font-size: 0.9rem; opacity: 0.6; }
-
-    </style>
-</head>
-<body>
-
-<header>
-    <h1>DZ-Quality-Fix</h1>
-    <p>خدمة احترافية لتحويل صورك القديمة إلى دقة 4K فائقة الوضوح</p>
-</header>
-
-<div class="container">
-    
-    <h2 style="margin-top:30px;">اسحب الشريط لرؤية الفرق</h2>
-    <div class="comparison-container">
-        <img src="before.jpeg" alt="Before">
-        
-        <div class="img-after" id="after-div">
-            <img src="after.jpg" alt="After">
-        </div>
-        
-        <input type="range" min="0" max="100" value="50" class="slider-input" id="slider">
-    </div>
-
-    <div class="upload-section">
-        <h2>اطلب خدمتك الآن</h2>
-        
-        <div class="payment-info">
-            <strong>طريقة الدفع:</strong> يتم الدفع عبر BaridiMob أو CCP. <br>
-            يرجى إرفاق صورة الوصل في النموذج أدناه لضمان معالجة طلبك بسرعة.
-        </div>
-
-        <p>استخدم النموذج أدناه لرفع صورتك وسنقوم بإرسال النسخة المحسنة إلى بريدك الإلكتروني.</p>
-        
-        <div class="form-container">
-            <iframe src="https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform?embedded=true">جاري التحميل...</iframe>
-        </div>
-    </div>
-
-</div>
-
-<footer>
-    &copy; 2026 DZ-Quality-Fix - جميع الحقوق محفوظة <br>
-    تم التطوير بواسطة مصطفى - طالب تسويق وخبير تقني
-</footer>
-
-<script>
-    const slider = document.getElementById('slider');
-    const afterDiv = document.getElementById('after-div');
-
-    slider.addEventListener('input', (e) => {
-        const value = e.target.value;
-        afterDiv.style.width = `${value}%`;
-    });
-</script>
-
-</body>
-</html>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تحسين جودة الصور | AI Upscaling</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background:#0b0f19;
+      color:#fff;
+      line-height:1.6;
+      overflow-x:hidden;
+    }
+    :root{
+      --bg:#0b0f19;
+      --card:#121826;
+      --border:#25304a;
+      --primary:#5b8cff;
+      --primary2:#7c4dff;
+      --muted:#9aa6c2;
+    }
+    .container{width:min(1100px,92%);margin:auto}
+    section{padding:70px 0}
