@@ -1,263 +1,385 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>تحسين جودة الصور مجاناً | DZ-Quality-Fix</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="DZ-Quality-Fix - تحسين جودة الصور بالذكاء الاصطناعي في ثوانٍ">
+  <title>DZ-Quality-Fix | تحسين الصور بالذكاء الاصطناعي</title>
   <style>
-    /* التنسيقات الأساسية */
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background:#0b0f19;
-      color:#fff;
-      line-height:1.6;
-      overflow-x:hidden;
-    }
-    :root{
-      --bg:#0b0f19;
-      --card:#121826;
-      --border:#25304a;
-      --primary:#00d2ff;
-      --primary2:#3a7bd5;
-      --muted:#9aa6c2;
-    }
-    .container{width:min(1100px,92%);margin:auto}
-    section{padding:70px 0}
-    h1,h2,h3{line-height:1.2}
-    p{color:var(--muted)}
-
-    /* قسم الهيرو (البداية) */
-    .hero{
-      padding:80px 0 50px;
-      background:radial-gradient(circle at top right,#1d2b4f 0%,transparent 35%),
-                 radial-gradient(circle at top left,#311b68 0%,transparent 30%),
-                 var(--bg);
-    }
-    .hero-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:40px;
-      align-items:center;
-    }
-    .badge{
-      display:inline-block;
-      background:rgba(0, 210, 255, 0.15);
-      border:1px solid rgba(0, 210, 255, 0.35);
-      color:#aecdff;
-      padding:8px 14px;
-      border-radius:999px;
-      font-size:.9rem;
-      margin-bottom:18px;
-    }
-    .hero h1{
-      font-size:clamp(2rem,5vw,3.8rem);
-      margin-bottom:16px;
-    }
-    .hero p{
-      font-size:1.05rem;
-      margin-bottom:26px;
-    }
-    .cta-group{
-      display:flex;
-      gap:14px;
-      flex-wrap:wrap;
-    }
-    .btn{
-      padding:14px 24px;
-      border:none;
-      border-radius:14px;
-      text-decoration:none;
-      font-weight:700;
-      cursor:pointer;
-      transition:.25s ease;
-    }
-    .btn-primary{
-      background:linear-gradient(135deg,var(--primary),var(--primary2));
-      color:#fff;
-      box-shadow:0 10px 30px rgba(0, 210, 255, 0.3);
-    }
-    .btn-primary:hover{transform:translateY(-2px)}
-    .btn-secondary{
-      background:transparent;
-      border:1px solid var(--border);
-      color:#fff;
+    :root {
+      --bg-main: #0a0a0f;
+      --bg-card: #14141f;
+      --bg-hover: #1e1e2a;
+      --accent: #00e5ff;
+      --accent-glow: rgba(0, 229, 255, 0.3);
+      --text-main: #e6e6f0;
+      --text-muted: #8a8a9a;
+      --border: #2a2a3d;
+      --radius: 12px;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --font: 'Tajawal', system-ui, sans-serif;
     }
 
-    /* قسم عرض الصور (التعديل الأساسي) */
-    .comparison-card{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:24px;
-      padding:18px;
-      box-shadow:0 20px 50px rgba(0,0,0,.35);
+    @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg-main);
+      color: var(--text-main);
+      font-family: var(--font);
+      line-height: 1.6;
+      overflow-x: hidden;
     }
-    .static-images-wrapper{
-      display:grid;
-      grid-template-columns:1fr 1fr; /* صورتين بجانب بعضهما البعض */
-      gap:10px; /* المسافة بين الصورتين */
-      width:100%;
-      aspect-ratio:4/3; /* الحفاظ على نسبة العرض إلى الارتفاع */
-      overflow:hidden;
-      border-radius:18px;
-      background: #000;
+
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 5%;
+      background: rgba(10, 10, 15, 0.8);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--border);
     }
-    .img-box{
+    .logo { font-weight: 700; font-size: 1.5rem; color: var(--accent); letter-spacing: 1px; }
+    .nav-links { display: flex; gap: 1.5rem; }
+    .nav-links a { color: var(--text-muted); text-decoration: none; transition: var(--transition); }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* Layout & Sections */
+    section { padding: 4rem 5%; max-width: 1200px; margin: 0 auto; }
+    .hero { text-align: center; min-height: 60vh; display: flex; flex-direction: column; justify-content: center; }
+    .hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 1rem; background: linear-gradient(135deg, #fff, var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .hero p { color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto 2rem; }
+
+    /* Upload Area */
+    .upload-zone {
+      border: 2px dashed var(--border);
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 3rem 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+    }
+    .upload-zone:hover, .upload-zone.dragover { border-color: var(--accent); background: var(--bg-hover); }
+    .upload-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.7; }
+    .btn-upload {
+      background: var(--accent);
+      color: #000;
+      border: none;
+      padding: 0.8rem 1.8rem;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-top: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .btn-upload:hover { transform: translateY(-2px); box-shadow: 0 8px 20px var(--accent-glow); }
+    .btn-upload:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+    input[type="file"] { display: none; }
+
+    /* Before/After Slider */
+    .comparison-wrapper {
+      display: none;
+      margin-top: 2rem;
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .comparison-container {
       position: relative;
       width: 100%;
-      height: 100%;
+      max-width: 700px;
+      aspect-ratio: 16/9;
+      margin: 0 auto;
+      user-select: none;
+      touch-action: none;
+      overflow: hidden;
     }
-    .static-images-wrapper img{
-      width:100%;
-      height:100%;
-      object-fit:cover; /* ملء المساحة دون تشويه */
-      display: block;
+    .img-before, .img-after {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      object-fit: contain;
+      pointer-events: none;
     }
-    .label{
-      position:absolute;
-      top:14px;
-      padding:6px 12px;
-      border-radius:999px;
-      font-size:.8rem;
-      font-weight:700;
-      background:rgba(0,0,0,.55);
-      backdrop-filter:blur(8px);
-      z-index:7;
+    .img-after-container {
+      position: absolute;
+      top: 0; left: 0; width: 50%; height: 100%;
+      overflow: hidden;
     }
-    .label.before{right:14px} /* قبل على اليسار (في الاتجاه العربي) */
-    .label.after{left:14px} /* بعد على اليمين (في الاتجاه العربي) */
+    .slider-handle {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 44px; height: 44px;
+      background: var(--accent);
+      border-radius: 50%;
+      cursor: ew-resize;
+      z-index: 10;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: bold; color: #000;
+      box-shadow: 0 0 15px var(--accent-glow);
+      transition: transform 0.1s;
+    }
+    .slider-handle:active { transform: translate(-50%, -50%) scale(1.1); }
+    .slider-labels { display: flex; justify-content: space-between; padding: 0.5rem 1rem; background: var(--bg-main); font-size: 0.9rem; color: var(--text-muted); }
 
-    /* الأقسام الأخرى */
-    .section-title{text-align:center;margin-bottom:40px}
-    .section-title h2{font-size:2rem;margin-bottom:10px}
+    /* Loading State */
+    .loader-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(10, 10, 15, 0.85);
+      display: none; flex-direction: column; align-items: center; justify-content: center;
+      z-index: 999; backdrop-filter: blur(4px);
+    }
+    .spinner {
+      width: 50px; height: 50px;
+      border: 4px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loader-text { margin-top: 1rem; color: var(--text-main); font-size: 1.1rem; }
 
-    .steps{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:20px;
-    }
-    .step{
-      background:var(--card);
-      border:1px solid var(--border);
-      padding:24px;
-      border-radius:20px;
-    }
-    .step .num{
-      width:42px;height:42px;border-radius:12px;
-      display:grid;place-items:center;
-      background:linear-gradient(135deg,var(--primary),var(--primary2));
-      margin-bottom:166px;
-      font-weight:800;
+    /* Scroll Animations */
+    .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* Features Grid */
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+    .feature-card { background: var(--bg-card); padding: 1.5rem; border-radius: var(--radius); border: 1px solid var(--border); transition: var(--transition); }
+    .feature-card:hover { border-color: var(--accent); transform: translateY(-5px); }
+    .feature-card h3 { color: var(--accent); margin-bottom: 0.5rem; }
+    .feature-card p { color: var(--text-muted); font-size: 0.95rem; }
+
+    /* Footer */
+    footer { text-align: center; padding: 2rem; color: var(--text-muted); border-top: 1px solid var(--border); margin-top: 3rem; font-size: 0.9rem; }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 2.2rem; }
+      .nav-links { display: none; }
+      .comparison-container { aspect-ratio: 4/3; }
+      section { padding: 2.5rem 4%; }
     }
 
-    .order-card{
-      background:linear-gradient(180deg,#121826,#0e1420);
-      border:1px solid var(--border);
-      border-radius:24px;
-      padding:40px;
-      text-align:center;
-    }
-    .order-card p{margin:14px auto 22px;max-width:650px}
-    .footer{
-      padding:30px 0;
-      text-align:center;
-      color:#7f8aa3;
-      border-top:1px solid rgba(255,255,255,.05);
-    }
-
-    /* متجاوب مع الهاتف */
-    @media (max-width:900px){
-      .hero-grid,.steps{grid-template-columns:1fr}
-      .hero{text-align:center}
-      .cta-group{justify-content:center}
-      /* على الهاتف، اجعل الصور فوق بعضها البعض لمشاهدة أفضل */
-      .static-images-wrapper{
-        grid-template-columns:1fr;
-        aspect-ratio:unset;
-        height: auto;
-      }
-      .img-box{
-        aspect-ratio: 4/3;
-      }
+    /* Accessibility */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
     }
   </style>
 </head>
 <body>
 
-  <section class="hero">
-    <div class="container hero-grid">
-      <div>
-        <span class="badge">🎁 عرض محدود: تحسين جودة الصور مجاناً</span>
-        <h1>حوّل صورك القديمة إلى دقة 4K فائقة الوضوح</h1>
-        <p>
-          نستخدم أقوى تقنيات الذكاء الاصطناعي لإصلاح الصور الباهتة وتوضيح ملامح الوجه مجاناً بالكامل. جودة احترافية دون دفع سنت واحد.
-        </p>
-        <div class="cta-group">
-          <a href="#order" class="btn btn-primary">حسّن صورتك الآن</a>
-          <a href="#how" class="btn btn-secondary">كيف تعمل الخدمة؟</a>
-        </div>
+  <header>
+    <div class="logo">DZ-Quality-Fix</div>
+    <nav class="nav-links">
+      <a href="#uploader">رفع الصورة</a>
+      <a href="#features">المميزات</a>
+      <a href="#">تواصل معنا</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="hero" class="fade-up">
+      <h1>حوّل صورك منخفضة الجودة إلى تحفٍ فنية</h1>
+      <p>استخدم قوة الذكاء الاصطناعي لرفع الدقة، إزالة التشويش، وتحسين التفاصيل بنقرة واحدة. مجاني، سريع، ويعمل مباشرة على متصفحك.</p>
+      <a href="#uploader" class="btn-upload">جرب الآن مجاناً ↓</a>
+    </section>
+
+    <section id="uploader" class="fade-up">
+      <div class="upload-zone" id="drop-zone">
+        <div class="upload-icon">📁</div>
+        <h3>اسحب الصورة هنا أو انقر للرفع</h3>
+        <p style="color:var(--text-muted); margin:0.5rem 0 1rem;">يدعم: JPG, PNG, WEBP (الحد الأقصى 5MB)</p>
+        <button class="btn-upload" id="upload-btn">
+          <span>اختيار ملف</span>
+        </button>
+        <input type="file" id="file-input" accept="image/*">
       </div>
 
-      <div class="comparison-card">
-        <div class="static-images-wrapper">
-          
-          <div class="img-box">
-            <img src="after.jpg" alt="Enhanced Image (After)" />
-            <div class="label after">بعد</div>
+      <div class="comparison-wrapper" id="comparison-wrapper">
+        <div class="comparison-container" id="slider-container">
+          <img id="img-before" class="img-before" alt="الصورة الأصلية">
+          <div class="img-after-container" id="after-container">
+            <img id="img-after" class="img-after" alt="الصورة المحسنة">
           </div>
-          
-          <div class="img-box">
-            <img src="before.jpg" alt="Original Image (Before)" />
-            <div class="label before">قبل</div>
-          </div>
-          
+          <div class="slider-handle" id="slider-handle">⬌</div>
         </div>
+        <div class="slider-labels">
+          <span>قبل التحسين</span>
+          <span>بعد الذكاء الاصطناعي</span>
+        </div>
+        <button class="btn-upload" id="reset-btn" style="margin: 1rem auto; display: block;">رفع صورة جديدة</button>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="how">
-    <div class="container">
-      <div class="section-title">
-        <h2>لماذا خدمتنا؟</h2>
-        <p>بسيطة، سريعة، ومجانية 100%</p>
-      </div>
-      <div class="steps">
-        <div class="step">
-          <div class="num">1</div>
-          <h3>ارفع صورتك</h3>
-          <p>أرسل الصورة التي تريد تحسين جودتها عبر نموذج الطلب بالأسفل.</p>
+    <section id="features" class="fade-up">
+      <h2 style="text-align:center; margin-bottom:1rem;">لماذا DZ-Quality-Fix؟</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <h3>🚀 معالجة سحابية سريعة</h3>
+          <p>لا يستهلك موارد جهازك. يتم الرفع والمعالجة على خوادم سحابية عالية الأداء.</p>
         </div>
-        <div class="step">
-          <div class="num">2</div>
-          <h3>معالجة ذكية</h3>
-          <p>يقوم نظامنا المدعوم بالذكاء الاصطناعي بترميم الصورة وزيادة دقتها تلقائياً.</p>
+        <div class="feature-card">
+          <h3>🤖 ذكاء اصطناعي متقدم</h3>
+          <p>يعتمد خوارزمية Upscale لتكبير الصور مع الحفاظ على الحواف والتفاصيل الدقيقة.</p>
         </div>
-        <div class="step">
-          <div class="num">3</div>
-          <h3>استلم مجاناً</h3>
-          <p>سنرسل لك النسخة المحسنة عالية الجودة مباشرة إلى بريدك الإلكتروني.</p>
+        <div class="feature-card">
+          <h3>🔒 خصوصية مضمونة</h3>
+          <p>يتم حذف الصور تلقائياً من الخوادم بعد المعالجة مباشرة. لا نحتفظ بنسخ.</p>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
-  <section id="order">
-    <div class="container">
-      <div class="order-card">
-        <span style="font-size: 3rem;">🚀</span>
-        <h2>جاهز لرؤية صورك بدقة مذهلة؟</h2>
-        <p>
-          الخدمة مجانية تماماً لفترة محدودة. لا تحتاج لبطاقة بنكية أو دفع أي رسوم. فقط ارفع صورتك وانتظر السحر!
-        </p>
-        <a href="YOUR_GOOGLE_FORM_LINK" target="_blank" class="btn btn-primary">إرسال طلب تحسين مجاني</a>
-      </div>
-    </div>
-  </section>
+  <footer>
+    <p>© <span id="year"></span> DZ-Quality-Fix. جميع الحقوق محفوظة. صمم بدقة للجزائر والعالم العربي.</p>
+  </footer>
 
-  <div class="footer">
-    <div class="container">© 2026 DZ-Quality-Fix | تم التطوير بواسطة مصطفى</div>
+  <div class="loader-overlay" id="loader">
+    <div class="spinner"></div>
+    <p class="loader-text" id="loader-text">جاري رفع الصورة...</p>
   </div>
 
-  </body>
+  <script>
+    // === إعدادات Cloudinary (استبدل القيم بمعلوماتك الحقيقية) ===
+    const CLOUD_NAME = 'duby6pthu';
+    const UPLOAD_PRESET = 'upload_images';
+    const UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
+
+    // === DOM Elements ===
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('file-input');
+    const uploadBtn = document.getElementById('upload-btn');
+    const comparisonWrapper = document.getElementById('comparison-wrapper');
+    const sliderContainer = document.getElementById('slider-container');
+    const afterContainer = document.getElementById('after-container');
+    const sliderHandle = document.getElementById('slider-handle');
+    const imgBefore = document.getElementById('img-before');
+    const imgAfter = document.getElementById('img-after');
+    const resetBtn = document.getElementById('reset-btn');
+    const loader = document.getElementById('loader');
+    const loaderText = document.getElementById('loader-text');
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // === Upload Triggers ===
+    uploadBtn.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', (e) => handleFile(e.target.files[0]));
+
+    // Drag & Drop
+    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('dragover');
+      if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+    });
+
+    resetBtn.addEventListener('click', () => {
+      comparisonWrapper.style.display = 'none';
+      dropZone.style.display = 'block';
+      fileInput.value = '';
+    });
+
+    // === Main Upload & Processing Logic ===
+    async function handleFile(file) {
+      if (!file || !file.type.startsWith('image/')) return alert('يرجى اختيار ملف صورة صالح.');
+      if (file.size > 5 * 1024 * 1024) return alert('حجم الملف كبير جداً. الحد الأقصى 5MB.');
+
+      showLoader('جاري رفع الصورة إلى السحابة...');
+      uploadBtn.disabled = true;
+
+      try {
+        // 1. Upload to Cloudinary
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', UPLOAD_PRESET);
+
+        const res = await fetch(UPLOAD_URL, { method: 'POST', body: formData });
+        if (!res.ok) throw new Error('فشل الرفع. تأكد من إعدادات الـ Preset.');
+        const data = await res.json();
+        const originalUrl = data.secure_url;
+
+        updateLoaderText('جاري تطبيق فلتر الذكاء الاصطناعي...');
+        
+        // 2. Apply AI Transformation
+        const aiUrl = originalUrl.replace('/upload/', '/upload/e_upscale/');
+
+        // 3. Load Images
+        await Promise.all([
+          new Promise(r => { imgBefore.onload = r; imgBefore.src = originalUrl; }),
+          new Promise(r => { imgAfter.onload = r; imgAfter.src = aiUrl; })
+        ]);
+
+        // 4. Show Result
+        dropZone.style.display = 'none';
+        comparisonWrapper.style.display = 'block';
+        afterContainer.style.width = '50%';
+        sliderHandle.style.left = '50%';
+
+      } catch (err) {
+        console.error(err);
+        alert('حدث خطأ أثناء المعالجة. تأكد من اتصال الإنترنت وإعدادات Cloudinary.');
+      } finally {
+        hideLoader();
+        uploadBtn.disabled = false;
+      }
+    }
+
+    function showLoader(text) { loader.style.display = 'flex'; updateLoaderText(text); }
+    function hideLoader() { loader.style.display = 'none'; }
+    function updateLoaderText(text) { loaderText.textContent = text; }
+
+    // === Before/After Slider Logic ===
+    let isDragging = false;
+
+    const updateSlider = (x) => {
+      const rect = sliderContainer.getBoundingClientRect();
+      let percent = ((x - rect.left) / rect.width) * 100;
+      percent = Math.max(0, Math.min(100, percent));
+      afterContainer.style.width = `${percent}%`;
+      sliderHandle.style.left = `${percent}%`;
+    };
+
+    // Mouse
+    sliderHandle.addEventListener('mousedown', () => isDragging = true);
+    window.addEventListener('mouseup', () => isDragging = false);
+    window.addEventListener('mousemove', (e) => { if (isDragging) updateSlider(e.clientX); });
+
+    // Touch
+    sliderHandle.addEventListener('touchstart', (e) => { e.preventDefault(); isDragging = true; }, {passive: false});
+    window.addEventListener('touchend', () => isDragging = false);
+    window.addEventListener('touchmove', (e) => { if (isDragging) updateSlider(e.touches[0].clientX); }, {passive: false});
+    
+    // Click to jump
+    sliderContainer.addEventListener('click', (e) => {
+      if(e.target === sliderHandle) return;
+      updateSlider(e.clientX);
+    });
+
+    // === Scroll Animations (Intersection Observer) ===
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  </script>
+</body>
 </html>
