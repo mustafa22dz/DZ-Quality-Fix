@@ -7,13 +7,19 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
+
 body{
   font-family: system-ui;
   background:#0b0f19;
   color:#fff;
 }
 
-.container{width:90%;max-width:1100px;margin:auto}
+.container{
+  width:90%;
+  max-width:1100px;
+  margin:auto;
+}
+
 section{padding:70px 0}
 
 .hero-grid{
@@ -23,14 +29,26 @@ section{padding:70px 0}
   align-items:center;
 }
 
+h1{font-size:2.5rem;margin-bottom:15px}
+p{color:#9aa6c2;margin-bottom:20px}
+
+/* زر */
 .btn{
   padding:12px 20px;
   border-radius:10px;
   background:#00d2ff;
   color:#000;
   text-decoration:none;
+  display:inline-block;
 }
 
+/* رفع الصورة */
+.upload-box{
+  text-align:center;
+  margin-bottom:15px;
+}
+
+/* السلايدر */
 .comparison-wrapper{
   position:relative;
   width:100%;
@@ -53,6 +71,7 @@ section{padding:70px 0}
   overflow:hidden;
   position:absolute;
   inset:0;
+  transition:all 0.1s linear;
 }
 
 .slider-line{
@@ -78,6 +97,7 @@ section{padding:70px 0}
   display:grid;
   place-items:center;
   font-weight:bold;
+  cursor:grab;
 }
 
 .label{
@@ -91,8 +111,16 @@ section{padding:70px 0}
 .before{right:10px}
 .after{left:10px}
 
-input{
-  margin-bottom:10px;
+/* لودينغ */
+.loading{
+  text-align:center;
+  margin-top:10px;
+  display:none;
+  color:#00d2ff;
+}
+
+@media(max-width:900px){
+  .hero-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -109,14 +137,17 @@ input{
 
 <div>
 
-<input type="file" id="upload" accept="image/*">
+<div class="upload-box">
+  <input type="file" id="upload" accept="image/*">
+  <div class="loading" id="loading">⏳ جاري تحسين الصورة...</div>
+</div>
 
 <div class="comparison-wrapper" id="comparison">
 
 <img id="beforeImg">
 
 <div class="after-layer" id="afterLayer">
-<img id="afterImg">
+  <img id="afterImg">
 </div>
 
 <div class="label before">قبل</div>
@@ -136,6 +167,7 @@ input{
 const input = document.getElementById("upload");
 const beforeImg = document.getElementById("beforeImg");
 const afterImg = document.getElementById("afterImg");
+const loading = document.getElementById("loading");
 
 const comparison = document.getElementById("comparison");
 const afterLayer = document.getElementById("afterLayer");
@@ -144,29 +176,47 @@ const sliderHandle = document.getElementById("sliderHandle");
 
 input.addEventListener("change", async () => {
   const file = input.files[0];
+  if(!file) return;
 
+  // عرض الصورة الأصلية
   const reader = new FileReader();
   reader.onload = () => {
     beforeImg.src = reader.result;
   };
   reader.readAsDataURL(file);
 
-  const formData = new FormData();
-  formData.append("file", file);
-  formData.append("upload_preset", "upload_images"); // غيّرها
+  loading.style.display = "block";
 
-  const res = await fetch("https://api.cloudinary.com/v1_1/duby6pthu/image/upload", {
-    method: "POST",
-    body: formData
-  });
+  try{
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "upload_images"); // غيرها
 
-  const data = await res.json();
+    const res = await fetch("https://api.cloudinary.com/v1_1/duby6pthu/image/upload", {
+      method: "POST",
+      body: formData
+    });
 
-  const optimized = data.secure_url.replace("/upload/", "/upload/e_upscale,q_auto/");
+    const data = await res.json();
 
-  afterImg.src = optimized;
+    if(!data.secure_url){
+      alert("خطأ في Cloudinary");
+      loading.style.display = "none";
+      return;
+    }
+
+    const optimized = data.secure_url.replace("/upload/", "/upload/e_upscale,q_auto/");
+
+    afterImg.src = optimized;
+
+  }catch(err){
+    alert("فشل الاتصال بالإنترنت");
+  }
+
+  loading.style.display = "none";
 });
 
+/* السلايدر */
 let isDragging = false;
 
 function updateSlider(x){
