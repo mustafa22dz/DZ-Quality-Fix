@@ -18,6 +18,7 @@
       --radius: 12px;
       --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       --font: 'Tajawal', system-ui, sans-serif;
+      --success: #2ecc71;
     }
 
     @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
@@ -82,12 +83,27 @@
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
+      text-decoration: none;
     }
     .btn-upload:hover { transform: translateY(-2px); box-shadow: 0 8px 20px var(--accent-glow); }
     .btn-upload:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+    
+    .btn-secondary {
+      background: var(--bg-hover);
+      color: var(--text-main);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover { background: var(--border); box-shadow: none; }
+
+    .btn-success {
+      background: var(--success);
+      color: white;
+    }
+    .btn-success:hover { box-shadow: 0 8px 20px rgba(46, 204, 113, 0.3); }
+
     input[type="file"] { display: none; }
 
-    /* Before/After Slider */
+    /* Before/After Slider Common Styles */
     .comparison-wrapper {
       display: none;
       margin-top: 2rem;
@@ -134,6 +150,25 @@
     .slider-handle:active { transform: translate(-50%, -50%) scale(1.1); }
     .slider-labels { display: flex; justify-content: space-between; padding: 0.5rem 1rem; background: var(--bg-main); font-size: 0.9rem; color: var(--text-muted); }
 
+    /* Examples Section Specifics */
+    #examples {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      margin-top: 2rem;
+    }
+    #example-slider-container {
+      max-width: 800px;
+      margin: 0 auto;
+      aspect-ratio: 16/9;
+    }
+    .example-labels {
+      background: transparent;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 1rem;
+    }
+
     /* Loading State */
     .loader-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -169,7 +204,7 @@
     @media (max-width: 600px) {
       .hero h1 { font-size: 2.2rem; }
       .nav-links { display: none; }
-      .comparison-container { aspect-ratio: 4/3; }
+      .comparison-container, #example-slider-container { aspect-ratio: 4/3; }
       section { padding: 2.5rem 4%; }
     }
 
@@ -185,8 +220,8 @@
     <div class="logo">DZ-Quality-Fix</div>
     <nav class="nav-links">
       <a href="#uploader">رفع الصورة</a>
+      <a href="#examples">أمثلة حية</a>
       <a href="#features">المميزات</a>
-      <a href="#">تواصل معنا</a>
     </nav>
   </header>
 
@@ -216,11 +251,44 @@
           </div>
           <div class="slider-handle" id="slider-handle">⬌</div>
         </div>
+        
         <div class="slider-labels">
           <span>قبل التحسين</span>
           <span>بعد الذكاء الاصطناعي</span>
         </div>
-        <button class="btn-upload" id="reset-btn" style="margin: 1rem auto; display: block;">رفع صورة جديدة</button>
+
+        <!-- أزرار التحكم الجديدة -->
+        <div style="display: flex; gap: 1rem; justify-content: center; padding: 1rem; flex-wrap: wrap;">
+          <button class="btn-upload btn-success" id="download-btn">
+            ⬇️ تحميل الصورة المحسنة
+          </button>
+          <button class="btn-upload btn-secondary" id="reset-btn">
+            🔄 رفع صورة جديدة
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- قسم الأمثلة الحية -->
+    <section id="examples" class="fade-up">
+      <h2 style="text-align: center; margin-bottom: 1.5rem;">شاهد الفرق بنفسك</h2>
+      <p style="text-align: center; color: var(--text-muted); margin-bottom: 2rem;">مثال حي على قدرة الذكاء الاصطناعي في استعادة التفاصيل</p>
+      
+      <div class="comparison-container" id="example-slider-container">
+        <!-- رابط الصورة الأصلية من GitHub -->
+        <img id="example-before" class="img-before" src="https://raw.githubusercontent.com/mustafa22dz/DZ-Quality-Fix/main/before.jpg" alt="مثال قبل">
+        
+        <div class="img-after-container" id="example-after-container">
+          <!-- رابط الصورة المحسنة من GitHub -->
+          <img id="example-after" class="img-after" src="https://raw.githubusercontent.com/mustafa22dz/DZ-Quality-Fix/main/after.jpg" alt="مثال بعد">
+        </div>
+        
+        <div class="slider-handle" id="example-slider-handle">⬌</div>
+      </div>
+      
+      <div class="slider-labels example-labels">
+        <span>الصورة الأصلية</span>
+        <span>بعد المعالجة بالذكاء الاصطناعي</span>
       </div>
     </section>
 
@@ -253,9 +321,9 @@
   </div>
 
   <script>
-    // === إعدادات Cloudinary (استبدل القيم بمعلوماتك الحقيقية) ===
+    // === إعدادات Cloudinary (محدثة حسب بياناتك) ===
     const CLOUD_NAME = 'duby6pthu';
-    const UPLOAD_PRESET = 'upload_images';
+    const UPLOAD_PRESET = 'upload_images'; // الاسم الذي وجدته في لوحة التحكم
     const UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
 
     // === DOM Elements ===
@@ -269,6 +337,7 @@
     const imgBefore = document.getElementById('img-before');
     const imgAfter = document.getElementById('img-after');
     const resetBtn = document.getElementById('reset-btn');
+    const downloadBtn = document.getElementById('download-btn');
     const loader = document.getElementById('loader');
     const loaderText = document.getElementById('loader-text');
 
@@ -291,6 +360,8 @@
       comparisonWrapper.style.display = 'none';
       dropZone.style.display = 'block';
       fileInput.value = '';
+      imgBefore.src = '';
+      imgAfter.src = '';
     });
 
     // === Main Upload & Processing Logic ===
@@ -314,8 +385,8 @@
 
         updateLoaderText('جاري تطبيق فلتر الذكاء الاصطناعي...');
         
-        // 2. Apply AI Transformation
-        const aiUrl = originalUrl.replace('/upload/', '/upload/e_upscale/');
+        // 2. Apply AI Transformation (Upscale + Auto Quality)
+        const aiUrl = originalUrl.replace('/upload/', '/upload/e_upscale,q_auto,f_auto/');
 
         // 3. Load Images
         await Promise.all([
@@ -342,10 +413,40 @@
     function hideLoader() { loader.style.display = 'none'; }
     function updateLoaderText(text) { loaderText.textContent = text; }
 
-    // === Before/After Slider Logic ===
-    let isDragging = false;
+    // === Download Logic ===
+    downloadBtn.addEventListener('click', async () => {
+      if (!imgAfter.src || imgAfter.src === '') return;
 
-    const updateSlider = (x) => {
+      try {
+        updateLoaderText('جاري تحضير الصورة للتحميل...');
+        showLoader();
+
+        const response = await fetch(imgAfter.src);
+        const blob = await response.blob();
+        
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = 'DZ-Quality-Fixed.png';
+        
+        document.body.appendChild(a);
+        a.click();
+        
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+        
+        hideLoader();
+      } catch (err) {
+        console.error(err);
+        alert('حدث خطأ أثناء التحميل. حاول النقر بزر الماوس الأيمن على الصورة وحفظها يدوياً.');
+        hideLoader();
+      }
+    });
+
+    // === User Upload Slider Logic ===
+    let isDragging = false;
+    const updateUserSlider = (x) => {
       const rect = sliderContainer.getBoundingClientRect();
       let percent = ((x - rect.left) / rect.width) * 100;
       percent = Math.max(0, Math.min(100, percent));
@@ -353,21 +454,37 @@
       sliderHandle.style.left = `${percent}%`;
     };
 
-    // Mouse
     sliderHandle.addEventListener('mousedown', () => isDragging = true);
     window.addEventListener('mouseup', () => isDragging = false);
-    window.addEventListener('mousemove', (e) => { if (isDragging) updateSlider(e.clientX); });
-
-    // Touch
+    window.addEventListener('mousemove', (e) => { if (isDragging) updateUserSlider(e.clientX); });
     sliderHandle.addEventListener('touchstart', (e) => { e.preventDefault(); isDragging = true; }, {passive: false});
     window.addEventListener('touchend', () => isDragging = false);
-    window.addEventListener('touchmove', (e) => { if (isDragging) updateSlider(e.touches[0].clientX); }, {passive: false});
-    
-    // Click to jump
-    sliderContainer.addEventListener('click', (e) => {
-      if(e.target === sliderHandle) return;
-      updateSlider(e.clientX);
-    });
+    window.addEventListener('touchmove', (e) => { if (isDragging) updateUserSlider(e.touches[0].clientX); }, {passive: false});
+    sliderContainer.addEventListener('click', (e) => { if(e.target !== sliderHandle) updateUserSlider(e.clientX); });
+
+
+    // === Example Slider Logic (Static Images) ===
+    const exampleContainer = document.getElementById('example-slider-container');
+    const exampleAfterContainer = document.getElementById('example-after-container');
+    const exampleHandle = document.getElementById('example-slider-handle');
+    let isExampleDragging = false;
+
+    const updateExampleSlider = (x) => {
+      const rect = exampleContainer.getBoundingClientRect();
+      let percent = ((x - rect.left) / rect.width) * 100;
+      percent = Math.max(0, Math.min(100, percent));
+      exampleAfterContainer.style.width = `${percent}%`;
+      exampleHandle.style.left = `${percent}%`;
+    };
+
+    exampleHandle.addEventListener('mousedown', () => isExampleDragging = true);
+    window.addEventListener('mouseup', () => isExampleDragging = false);
+    window.addEventListener('mousemove', (e) => { if (isExampleDragging) updateExampleSlider(e.clientX); });
+    exampleHandle.addEventListener('touchstart', (e) => { e.preventDefault(); isExampleDragging = true; }, {passive: false});
+    window.addEventListener('touchend', () => isExampleDragging = false);
+    window.addEventListener('touchmove', (e) => { if (isExampleDragging) updateExampleSlider(e.touches[0].clientX); }, {passive: false});
+    exampleContainer.addEventListener('click', (e) => { if(e.target !== exampleHandle) updateExampleSlider(e.clientX); });
+
 
     // === Scroll Animations (Intersection Observer) ===
     const observer = new IntersectionObserver((entries) => {
