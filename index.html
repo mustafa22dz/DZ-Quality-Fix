@@ -1,194 +1,263 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DZ-Quality-Fix | تحسين الصور بالذكاء الاصطناعي</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تحسين جودة الصور مجاناً | DZ-Quality-Fix</title>
   <style>
-    /* التنسيقات الأساسية المستوحاة من تصميمك الاحترافي */
+    /* التنسيقات الأساسية */
     *{margin:0;padding:0;box-sizing:border-box}
+    body{
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background:#0b0f19;
+      color:#fff;
+      line-height:1.6;
+      overflow-x:hidden;
+    }
     :root{
       --bg:#0b0f19;
       --card:#121826;
+      --border:#25304a;
       --primary:#00d2ff;
       --primary2:#3a7bd5;
       --muted:#9aa6c2;
     }
-    body{
-      font-family: system-ui, sans-serif;
-      background: var(--bg);
-      color: #fff;
-      line-height: 1.6;
-    }
-    .container{ width: min(1100px, 92%); margin: auto; }
-    section{ padding: 80px 0; }
+    .container{width:min(1100px,92%);margin:auto}
+    section{padding:70px 0}
+    h1,h2,h3{line-height:1.2}
+    p{color:var(--muted)}
 
-    /* الهيرو سكشن */
+    /* قسم الهيرو (البداية) */
+    .hero{
+      padding:80px 0 50px;
+      background:radial-gradient(circle at top right,#1d2b4f 0%,transparent 35%),
+                 radial-gradient(circle at top left,#311b68 0%,transparent 30%),
+                 var(--bg);
+    }
     .hero-grid{
-      display: grid;
-      grid-template-columns: 1fr 1.1fr;
-      gap: 50px;
-      align-items: center;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:40px;
+      align-items:center;
     }
-    h1{ font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 20px; line-height: 1.2; }
-    .highlight{ color: var(--primary); }
-    p{ color: var(--muted); font-size: 1.1rem; margin-bottom: 30px; }
+    .badge{
+      display:inline-block;
+      background:rgba(0, 210, 255, 0.15);
+      border:1px solid rgba(0, 210, 255, 0.35);
+      color:#aecdff;
+      padding:8px 14px;
+      border-radius:999px;
+      font-size:.9rem;
+      margin-bottom:18px;
+    }
+    .hero h1{
+      font-size:clamp(2rem,5vw,3.8rem);
+      margin-bottom:16px;
+    }
+    .hero p{
+      font-size:1.05rem;
+      margin-bottom:26px;
+    }
+    .cta-group{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+    .btn{
+      padding:14px 24px;
+      border:none;
+      border-radius:14px;
+      text-decoration:none;
+      font-weight:700;
+      cursor:pointer;
+      transition:.25s ease;
+    }
+    .btn-primary{
+      background:linear-gradient(135deg,var(--primary),var(--primary2));
+      color:#fff;
+      box-shadow:0 10px 30px rgba(0, 210, 255, 0.3);
+    }
+    .btn-primary:hover{transform:translateY(-2px)}
+    .btn-secondary{
+      background:transparent;
+      border:1px solid var(--border);
+      color:#fff;
+    }
 
-    /* صندوق المقارنة والتحسين */
-    .card-box{
-      background: var(--card);
-      padding: 25px;
-      border-radius: 30px;
-      border: 1px solid #25304a;
-      box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+    /* قسم عرض الصور (التعديل الأساسي) */
+    .comparison-card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:24px;
+      padding:18px;
+      box-shadow:0 20px 50px rgba(0,0,0,.35);
     }
-    .upload-area{
-      margin-bottom: 20px;
-      padding: 20px;
-      border: 2px dashed #25304a;
-      border-radius: 15px;
-      text-align: center;
-      transition: 0.3s;
+    .static-images-wrapper{
+      display:grid;
+      grid-template-columns:1fr 1fr; /* صورتين بجانب بعضهما البعض */
+      gap:10px; /* المسافة بين الصورتين */
+      width:100%;
+      aspect-ratio:4/3; /* الحفاظ على نسبة العرض إلى الارتفاع */
+      overflow:hidden;
+      border-radius:18px;
+      background: #000;
     }
-    .upload-area:hover{ border-color: var(--primary); background: rgba(0, 210, 255, 0.05); }
-    input[type="file"]{ cursor: pointer; color: var(--primary); }
-
-    /* السلايدر الاحترافي */
-    .comparison-container {
+    .img-box{
       position: relative;
       width: 100%;
-      aspect-ratio: 16/10;
-      border-radius: 20px;
-      overflow: hidden;
-      background: #000;
-      display: none; /* يظهر فقط بعد رفع الصورة */
+      height: 100%;
     }
-    .image-before, .image-after {
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      object-fit: cover;
+    .static-images-wrapper img{
+      width:100%;
+      height:100%;
+      object-fit:cover; /* ملء المساحة دون تشويه */
+      display: block;
     }
-    .image-after-container {
-      position: absolute;
-      top: 0; left: 0; width: 50%; height: 100%;
-      overflow: hidden;
-      border-right: 3px solid #fff;
-      z-index: 2;
+    .label{
+      position:absolute;
+      top:14px;
+      padding:6px 12px;
+      border-radius:999px;
+      font-size:.8rem;
+      font-weight:700;
+      background:rgba(0,0,0,.55);
+      backdrop-filter:blur(8px);
+      z-index:7;
     }
-    .slider-handle {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 45px; height: 45px;
-      background: #fff;
-      border-radius: 50%;
-      display: grid; place-items: center;
-      box-shadow: 0 0 20px rgba(0,0,0,0.5);
-      z-index: 3;
-      cursor: ew-resize;
-      color: #000; font-weight: bold;
-    }
-    .label {
-      position: absolute; top: 15px; z-index: 4;
-      padding: 5px 15px; background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(5px); border-radius: 20px; font-size: 0.8rem;
-    }
-    .label-before { right: 15px; }
-    .label-after { left: 15px; }
+    .label.before{right:14px} /* قبل على اليسار (في الاتجاه العربي) */
+    .label.after{left:14px} /* بعد على اليمين (في الاتجاه العربي) */
 
-    /* لودينغ */
-    .loader {
-      display: none;
-      text-align: center; margin: 15px 0;
-      color: var(--primary); font-weight: bold;
+    /* الأقسام الأخرى */
+    .section-title{text-align:center;margin-bottom:40px}
+    .section-title h2{font-size:2rem;margin-bottom:10px}
+
+    .steps{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:20px;
+    }
+    .step{
+      background:var(--card);
+      border:1px solid var(--border);
+      padding:24px;
+      border-radius:20px;
+    }
+    .step .num{
+      width:42px;height:42px;border-radius:12px;
+      display:grid;place-items:center;
+      background:linear-gradient(135deg,var(--primary),var(--primary2));
+      margin-bottom:166px;
+      font-weight:800;
     }
 
-    @media (max-width: 900px){
-      .hero-grid{ grid-template-columns: 1fr; text-align: center; }
-      section{ padding: 40px 0; }
+    .order-card{
+      background:linear-gradient(180deg,#121826,#0e1420);
+      border:1px solid var(--border);
+      border-radius:24px;
+      padding:40px;
+      text-align:center;
+    }
+    .order-card p{margin:14px auto 22px;max-width:650px}
+    .footer{
+      padding:30px 0;
+      text-align:center;
+      color:#7f8aa3;
+      border-top:1px solid rgba(255,255,255,.05);
+    }
+
+    /* متجاوب مع الهاتف */
+    @media (max-width:900px){
+      .hero-grid,.steps{grid-template-columns:1fr}
+      .hero{text-align:center}
+      .cta-group{justify-content:center}
+      /* على الهاتف، اجعل الصور فوق بعضها البعض لمشاهدة أفضل */
+      .static-images-wrapper{
+        grid-template-columns:1fr;
+        aspect-ratio:unset;
+        height: auto;
+      }
+      .img-box{
+        aspect-ratio: 4/3;
+      }
     }
   </style>
 </head>
 <body>
 
-  <section>
+  <section class="hero">
     <div class="container hero-grid">
       <div>
-        <h1>حوّل صورك إلى <span class="highlight">دقة 4K</span> مجاناً</h1>
-        <p>ارفع صورتك الآن وشاهد السحر! نقوم بتحسين الملامح وإصلاح البكسلات المفقودة باستخدام أحدث تقنيات الـ AI.</p>
-        <div class="trust-note" style="font-size: 0.8rem; color: #aecdff;">🛡️ خصوصيتك مضمونة، الصور تحذف تلقائياً.</div>
+        <span class="badge">🎁 عرض محدود: تحسين جودة الصور مجاناً</span>
+        <h1>حوّل صورك القديمة إلى دقة 4K فائقة الوضوح</h1>
+        <p>
+          نستخدم أقوى تقنيات الذكاء الاصطناعي لإصلاح الصور الباهتة وتوضيح ملامح الوجه مجاناً بالكامل. جودة احترافية دون دفع سنت واحد.
+        </p>
+        <div class="cta-group">
+          <a href="#order" class="btn btn-primary">حسّن صورتك الآن</a>
+          <a href="#how" class="btn btn-secondary">كيف تعمل الخدمة؟</a>
+        </div>
       </div>
 
-      <div class="card-box">
-        <div class="upload-area">
-          <input type="file" id="imageInput" accept="image/*">
-          <p style="margin: 10px 0 0; font-size: 0.9rem;">اضغط هنا لاختيار صورة من جهازك</p>
-        </div>
-
-        <div class="loader" id="loader">✨ جاري التحسين بالذكاء الاصطناعي...</div>
-
-        <div class="comparison-container" id="container">
-          <img id="beforeImg" class="image-before">
+      <div class="comparison-card">
+        <div class="static-images-wrapper">
           
-          <div class="image-after-container" id="afterWrapper">
-            <img id="afterImg" class="image-after">
+          <div class="img-box">
+            <img src="after.jpg" alt="Enhanced Image (After)" />
+            <div class="label after">بعد</div>
           </div>
-
-          <div class="label label-before">قبل</div>
-          <div class="label label-after">بعد</div>
-          <div class="slider-handle" id="handle">↔</div>
+          
+          <div class="img-box">
+            <img src="before.jpg" alt="Original Image (Before)" />
+            <div class="label before">قبل</div>
+          </div>
+          
         </div>
       </div>
     </div>
   </section>
 
-  <script>
-    const input = document.getElementById('imageInput');
-    const container = document.getElementById('container');
-    const beforeImg = document.getElementById('beforeImg');
-    const afterImg = document.getElementById('afterImg');
-    const loader = document.getElementById('loader');
-    const afterWrapper = document.getElementById('afterWrapper');
-    const handle = document.getElementById('handle');
+  <section id="how">
+    <div class="container">
+      <div class="section-title">
+        <h2>لماذا خدمتنا؟</h2>
+        <p>بسيطة، سريعة، ومجانية 100%</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="num">1</div>
+          <h3>ارفع صورتك</h3>
+          <p>أرسل الصورة التي تريد تحسين جودتها عبر نموذج الطلب بالأسفل.</p>
+        </div>
+        <div class="step">
+          <div class="num">2</div>
+          <h3>معالجة ذكية</h3>
+          <p>يقوم نظامنا المدعوم بالذكاء الاصطناعي بترميم الصورة وزيادة دقتها تلقائياً.</p>
+        </div>
+        <div class="step">
+          <div class="num">3</div>
+          <h3>استلم مجاناً</h3>
+          <p>سنرسل لك النسخة المحسنة عالية الجودة مباشرة إلى بريدك الإلكتروني.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    input.addEventListener('change', async (e) => {
-      const file = e.target.files[0];
-      if(!file) return;
+  <section id="order">
+    <div class="container">
+      <div class="order-card">
+        <span style="font-size: 3rem;">🚀</span>
+        <h2>جاهز لرؤية صورك بدقة مذهلة؟</h2>
+        <p>
+          الخدمة مجانية تماماً لفترة محدودة. لا تحتاج لبطاقة بنكية أو دفع أي رسوم. فقط ارفع صورتك وانتظر السحر!
+        </p>
+        <a href="YOUR_GOOGLE_FORM_LINK" target="_blank" class="btn btn-primary">إرسال طلب تحسين مجاني</a>
+      </div>
+    </div>
+  </section>
 
-      // إظهار الصورة الأصلية فوراً
-      const url = URL.createObjectURL(file);
-      beforeImg.src = url;
-      container.style.display = "block";
-      loader.style.display = "block";
+  <div class="footer">
+    <div class="container">© 2026 DZ-Quality-Fix | تم التطوير بواسطة مصطفى</div>
+  </div>
 
-      // محاكاة عملية التحسين (بما أن الربط مع Cloudinary يحتاج إعدادات حسابك)
-      // ملاحظة: يمكنك وضع كود الـ Fetch الخاص بـ Cloudinary هنا كما فعلت سابقاً
-      setTimeout(() => {
-        afterImg.src = url; // مؤقتاً نعرض نفس الصورة
-        afterImg.style.filter = "contrast(1.2) brightness(1.1) saturate(1.1) sharp(10px)"; // تأثير بصري بسيط
-        loader.style.display = "none";
-      }, 2000);
-    });
-
-    // منطق السلايدر
-    let dragging = false;
-    const move = (e) => {
-      if(!dragging) return;
-      let x = e.pageX || e.touches[0].pageX;
-      let rect = container.getBoundingClientRect();
-      let pos = ((x - rect.left) / rect.width) * 100;
-      pos = Math.max(0, Math.min(100, pos));
-      afterWrapper.style.width = pos + "%";
-      handle.style.left = pos + "%";
-    };
-
-    handle.addEventListener('mousedown', () => dragging = true);
-    window.addEventListener('mouseup', () => dragging = false);
-    window.addEventListener('mousemove', move);
-    handle.addEventListener('touchstart', () => dragging = true);
-    window.addEventListener('touchend', () => dragging = false);
-    window.addEventListener('touchmove', move);
-
-  </script>
-</body>
+  </body>
 </html>
